@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../styles/Styles"
+import Layout from "./PageStyles"
 
 const Root : React.FC = () => {
   return (
