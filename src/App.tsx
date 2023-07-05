@@ -1,6 +1,6 @@
 import { Router, Route } from "./react-router-dom"
-import Root from "./components/Root";
-import About from "./components/Root";
+import Root from "./pages/Root";
+import About from "./pages/Root";
 
 function App() {
   return (
