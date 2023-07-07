@@ -1,10 +1,10 @@
 export interface RouteProps {
   path: string;
-  component: React.ReactNode;
+  element: React.ReactNode;
 }
 
-const Route = ({ path, component }: RouteProps) => {
-  return window.location.pathname == path? <div>{component}</div> : null;
+const Route = ({ path, element }: RouteProps) => {
+  return window.location.pathname == path? <>{element}</> : null;
 }
 
 export default Route;
