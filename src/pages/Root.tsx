@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import useRouter from "../components/hooks/useRouter";
+import {useRouter} from "../components/hooks/useRouter";
 
 const Container = styled.div`
   height : 100vh;
@@ -24,7 +24,7 @@ const Button = styled.button`
 
 const Root : React.FC = () => {
   const {push} = useRouter();
-  
+
   return (
     <Container>
       <div>

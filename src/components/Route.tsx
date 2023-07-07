@@ -3,8 +3,6 @@ export interface RouteProps {
   element: React.ReactNode;
 }
 
-const Route = ({ path, element }: RouteProps) => {
+export const Route = ({ path, element }: RouteProps) => {
   return window.location.pathname == path? <>{element}</> : null;
 }
-
-export default Route;
