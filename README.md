@@ -69,9 +69,8 @@ interface RouterProps {
     children: React.ReactNode;
 }
 
-const Router = ({ children }: RouterProps) => {
+export const Router = ({ children }: RouterProps) => {
     const [path, setPath] = useState(location.pathname);
-
     const routes = React.Children.toArray(children) as React.ReactElement<RouteProps>[];
 
     useEffect(() => {
@@ -80,18 +79,37 @@ const Router = ({ children }: RouterProps) => {
         };
 
         window.addEventListener('popstate', handleSetPath);
-
-        return () => {
-            window.removeEventListener('popstate', handleSetPath);
-        };
+        return () => window.removeEventListener('popstate', handleSetPath);
     }, []);
 
     return routes.find((route) => route.props.path === path);
-
 }
-
-export default Router;
 ```
 + 현재 경로에 따라 컴포넌트를 렌더링한다. useEffect hook으로 popstate 이벤트를 감지하여 현재 경로를 업데이트한다.
 
+> Route.tsx
+```
+export interface RouteProps {
+  path: string;
+  element: React.ReactNode;
+}
+
+export const Route = ({ path, element }: RouteProps) => {
+  return window.location.pathname == path? <>{element}</> : null;
+}
+```
++ path와 렌더링할 element를 받아와 현재 경로와 비교하고 같다면 해당 element를 렌더링한다.
+
+> useRouter.tsx
+```
+export const useRouter = () => {
+  const push = (path: string):void => {
+    window.history.pushState(null, '', path)
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+
+  return { push };
+}
+```
++ path를 받아와 history.pushState를 이용하여 URL을 변경한다. 그 후 dispatchEvent를 통해 새로운 popstate 이벤트를 발생시켜 이벤트를 감지시켜 페이지를 리렌더링한다.
 
