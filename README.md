@@ -57,4 +57,41 @@ $> yarn create vite
 ```
 + components : Router와 Route 컴포넌트와 hooks
 + hooks : 커스텀 hook
-+ pages : 렌더링되는 페이
++ pages : 렌더링되는 페이지
+
+📖 코드 설명
+> Router.tsx
+```
+import React, { useState, useEffect } from "react";
+import { RouteProps } from "./Route";
+
+interface RouterProps {
+    children: React.ReactNode;
+}
+
+const Router = ({ children }: RouterProps) => {
+    const [path, setPath] = useState(location.pathname);
+
+    const routes = React.Children.toArray(children) as React.ReactElement<RouteProps>[];
+
+    useEffect(() => {
+        const handleSetPath = () => {
+            setPath(window.location.pathname)
+        };
+
+        window.addEventListener('popstate', handleSetPath);
+
+        return () => {
+            window.removeEventListener('popstate', handleSetPath);
+        };
+    }, []);
+
+    return routes.find((route) => route.props.path === path);
+
+}
+
+export default Router;
+```
++ 현재 경로에 따라 컴포넌트를 렌더링한다. useEffect hook으로 popstate 이벤트를 감지하여 현재 경로를 업데이트한다.
+
+
